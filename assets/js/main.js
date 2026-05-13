@@ -304,10 +304,15 @@ function showToast(message, type = 'success') {
     }
     const toast = document.createElement('div');
     toast.className = 'toast';
-    const icon = type === 'success'
-        ? '<i class="fa-solid fa-circle-check text-green-400"></i>'
-        : '<i class="fa-solid fa-circle-info text-blue-400"></i>';
-    toast.innerHTML = `${icon} <span>${message}</span>`;
+    const icon = document.createElement('i');
+    icon.className = type === 'success'
+        ? 'fa-solid fa-circle-check text-green-400'
+        : 'fa-solid fa-circle-info text-blue-400';
+    const text = document.createElement('span');
+    text.textContent = message;
+    toast.appendChild(icon);
+    toast.append(' ');
+    toast.appendChild(text);
     container.appendChild(toast);
     requestAnimationFrame(() => toast.classList.add('show'));
     setTimeout(() => {
@@ -1535,45 +1540,6 @@ function handleCookieConsent(action) {
    ========================================= */
 let pageInitialized = false;
 
-
-function formatGreekDateTime(value) {
-    const date = new Date(value);
-
-    if (Number.isNaN(date.getTime())) {
-        return '';
-    }
-
-    return new Intl.DateTimeFormat('el-GR', {
-        timeZone: 'Europe/Athens',
-        dateStyle: 'medium',
-        timeStyle: 'short',
-    }).format(date);
-}
-
-async function loadSiteUpdateNotice() {
-    const target = document.getElementById('siteLastUpdated');
-
-    if (!target) return;
-
-    try {
-        const response = await fetch(`assets/site-version.json?v=${Date.now()}`, {
-            cache: 'no-store',
-        });
-
-        if (!response.ok) throw new Error('site-version not available');
-
-        const data = await response.json();
-        const formatted = formatGreekDateTime(data.updatedAt);
-
-        if (!formatted) throw new Error('invalid updatedAt');
-
-        target.textContent = `Τελευταία ενημέρωση: ${formatted}`;
-        target.setAttribute('title', data.commit ? `Commit: ${data.commit}` : '');
-    } catch (error) {
-        target.textContent = 'Τελευταία ενημέρωση: διαθέσιμη σύντομα.';
-    }
-}
-
 function initializePage() {
     if (pageInitialized) return;
     pageInitialized = true;
@@ -1661,7 +1627,7 @@ function initializePage() {
     });
 
     initializeOfferCardTracking();
-    loadSiteUpdateNotice();
+    window.loadSiteUpdateNotice?.();
 }
 
 if (document.readyState === 'loading') {

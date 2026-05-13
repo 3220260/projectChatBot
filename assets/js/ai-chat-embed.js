@@ -42,12 +42,24 @@
     button.setAttribute("aria-expanded", "false");
     button.setAttribute("aria-label", "Άνοιγμα συνομιλίας με τον βοηθό");
 
-    button.innerHTML =
-      '<span class="synetelas-ai-chat-bubble" aria-hidden="true">💬</span>' +
-      '<span class="synetelas-ai-chat-label">' +
-      "<strong>" + config.title + "</strong>" +
-      "<small>" + config.subtitle + "</small>" +
-      "</span>";
+    var bubble = document.createElement("span");
+    bubble.className = "synetelas-ai-chat-bubble";
+    bubble.setAttribute("aria-hidden", "true");
+    bubble.textContent = "💬";
+
+    var label = document.createElement("span");
+    label.className = "synetelas-ai-chat-label";
+
+    var title = document.createElement("strong");
+    title.textContent = config.title;
+
+    var subtitle = document.createElement("small");
+    subtitle.textContent = config.subtitle;
+
+    label.appendChild(title);
+    label.appendChild(subtitle);
+    button.appendChild(bubble);
+    button.appendChild(label);
 
     return button;
   }
@@ -62,11 +74,15 @@
 
     var header = document.createElement("div");
     header.className = "synetelas-ai-chat-header";
-    header.innerHTML =
-      "<div>" +
-      "<strong>" + config.title + "</strong>" +
-      "<span>" + config.subtitle + "</span>" +
-      "</div>";
+
+    var headerCopy = document.createElement("div");
+    var headerTitle = document.createElement("strong");
+    var headerSubtitle = document.createElement("span");
+    headerTitle.textContent = config.title;
+    headerSubtitle.textContent = config.subtitle;
+    headerCopy.appendChild(headerTitle);
+    headerCopy.appendChild(headerSubtitle);
+    header.appendChild(headerCopy);
 
     var actions = document.createElement("div");
     actions.className = "synetelas-ai-chat-actions";

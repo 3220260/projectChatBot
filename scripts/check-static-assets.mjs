@@ -20,6 +20,11 @@ const checks = [
         content: readFileSync(resolve(projectRoot, 'assets/css/tailwind.css'), 'utf8'),
         baseDir: resolve(projectRoot, 'assets/css'),
     },
+    {
+        file: 'assets/js/site-version.js',
+        content: readFileSync(resolve(projectRoot, 'assets/js/site-version.js'), 'utf8'),
+        baseDir: projectRoot,
+    },
 ];
 
 const html = checks[0].content;
@@ -60,10 +65,18 @@ for (const match of html.matchAll(attrPattern)) {
     assertExists(match[1], projectRoot, 'index.html');
 }
 
-for (const check of checks.slice(1)) {
+for (const check of checks.filter((item) => item.file.endsWith('.css'))) {
     const cssUrlPattern = /url\(([^)]+)\)/g;
 
     for (const match of check.content.matchAll(cssUrlPattern)) {
+        assertExists(match[1], check.baseDir, check.file);
+    }
+}
+
+for (const check of checks.filter((item) => item.file.endsWith('.js'))) {
+    const fetchPattern = /\bfetch\(\s*["'`]([^"'`]+)["'`]/g;
+
+    for (const match of check.content.matchAll(fetchPattern)) {
         assertExists(match[1], check.baseDir, check.file);
     }
 }
