@@ -1,0 +1,212 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-plex-sans);
+  --font-heading: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 8px);
+  --radius-2xl: calc(var(--radius) + 14px);
+  --radius-3xl: calc(var(--radius) + 20px);
+  --radius-4xl: calc(var(--radius) + 28px);
+}
+
+:root {
+  color-scheme: light;
+  --background: #f5f7fb;
+  --foreground: #071b3a;
+  --card: #ffffff;
+  --card-foreground: #071b3a;
+  --popover: rgba(255, 255, 255, 0.98);
+  --popover-foreground: #071b3a;
+  --primary: #071b3a;
+  --primary-foreground: #ffffff;
+  --secondary: #102a56;
+  --secondary-foreground: #ffffff;
+  --muted: #e9eef6;
+  --muted-foreground: #5d6b82;
+  --accent: #e6f5f3;
+  --accent-foreground: #0f766e;
+  --destructive: #b42318;
+  --border: rgba(7, 27, 58, 0.12);
+  --input: rgba(7, 27, 58, 0.14);
+  --ring: rgba(15, 118, 110, 0.28);
+  --chart-1: #071b3a;
+  --chart-2: #102a56;
+  --chart-3: #0f766e;
+  --chart-4: #d6a84f;
+  --chart-5: #5d6b82;
+  --radius: 1rem;
+  --navy: #071b3a;
+  --navy-soft: #102a56;
+  --surface: #f5f7fb;
+  --gold: #d6a84f;
+  --shadow-soft: 0 18px 45px rgba(7, 27, 58, 0.12);
+  --shadow-strong: 0 32px 80px rgba(7, 27, 58, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(214, 168, 79, 0.16), transparent 26%),
+    radial-gradient(circle at top right, rgba(15, 118, 110, 0.1), transparent 24%),
+    var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(15, 118, 110, 0.18);
+  color: var(--foreground);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  html {
+    @apply font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading tracking-tight;
+  }
+}
+
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-5deg);
+  }
+
+  50% {
+    transform: translate3d(0, -12px, 0) rotate(-3deg);
+  }
+}
+
+@keyframes glow-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.72;
+  }
+
+  50% {
+    transform: translate3d(10px, -10px, 0) scale(1.06);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-140%) rotate(12deg);
+  }
+
+  100% {
+    transform: translateX(160%) rotate(12deg);
+  }
+}
+
+@keyframes signal-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.22);
+  }
+
+  50% {
+    box-shadow: 0 0 0 14px rgba(255, 255, 255, 0);
+  }
+}
+
+@layer utilities {
+  .hero-orb {
+    animation: glow-drift 7.5s ease-in-out infinite;
+  }
+
+  .phone-float {
+    animation: hero-float 7s ease-in-out infinite;
+  }
+
+  .phone-screen::after {
+    content: "";
+    position: absolute;
+    inset: -18%;
+    background: linear-gradient(
+      110deg,
+      transparent 42%,
+      rgba(255, 255, 255, 0.22) 50%,
+      transparent 58%
+    );
+    animation: shimmer-sweep 5s linear infinite;
+    pointer-events: none;
+  }
+
+  .signal-pulse {
+    animation: signal-pulse 2.6s ease-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
